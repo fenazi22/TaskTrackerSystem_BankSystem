@@ -41,40 +41,21 @@ public class BankController {
     }
 
 
-    @PutMapping("/Withdraw/{index}")
-    public ApiResponse Withdraws(@PathVariable int index,@RequestBody BankManagementSystemModel withdraws) {
-        if (withdraws.getBalance() < withdraws.getWithdraw()) {
-            return new ApiResponse("You cannot withdraw because  withdraw more than  your balance", "404");
-        } else {
-            withdraws.setBalance(withdraws.getBalance() - withdraws.getWithdraw());
-            bankModels.set(index, withdraws);
-            return new ApiResponse("Seccefully Withdraw", "200");
-        }
 
+    @PutMapping("/Withdraw/{index}/{amount}")
+    public ApiResponse Withdraws(@PathVariable int index, @PathVariable double amount) {
+       if(this.bankModels.get(index).getBalance()>=amount);
+        this.bankModels.get(index).setBalance(this.bankModels.get(index).getBalance()-amount);
+       return new ApiResponse("withdraw","200");
     }
 
 
-//    @PutMapping("/deposit/{index}")
-//
-//    public ApiResponse deposit(@PathVariable int index) {
-//        BankManagementSystemModel deposit = bankModels.get(index);
-//        deposit.setBalance(deposit.getBalance() + deposit.getDeposit());
-//        bankModels.set(index,deposit);
-//        return new ApiResponse("Seccefully deposit", "200");
-//    }
-//
 
 
-    @PutMapping("/deposit/{index}")
-    public ApiResponse deposit(@PathVariable int index,@RequestBody BankManagementSystemModel deposits) {
-        if (deposits.getDeposit() >0){
-            deposits.setBalance(deposits.getBalance() + deposits.getDeposit());
-            bankModels.set(index, deposits);
-            return new ApiResponse("Successfully deposited", "200");
 
-    }else{
-            return  new ApiResponse("filed ","404");
-        }
-
-        }
-    }
+    @PutMapping("/deposit/{index}/{amount}")
+    public ApiResponse deposit(@PathVariable int index, @PathVariable double amount) {
+        this.bankModels.get(index).setBalance(this.bankModels.get(index).getBalance()+amount);
+        return new ApiResponse("deposit","200");
+    } 
+}
